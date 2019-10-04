@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>表白神器</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=1000, initial-scale=1.0, maximum-scale=1.0">
+		<script type="text/javascript" src="scripts/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.qrcode.min.js"></script>
+	    <link href="./css/vendor/bootstrap.min.css" rel="stylesheet">
+	    <link href="./css/flat-ui.css" rel="stylesheet">
+	    <link rel="shortcut icon" href="favicon.ico">
+	</head>
+	<body>
+		<div class="container">
+			<br/>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4">
+					<div class="form-group">
+				    	<label for="exampleInputEmail1">情侣甲姓名</label>
+				    	<input type="input" class="form-control" id="boy" placeholder="Boy Name">
+				  	</div>
+				  	<div class="form-group">
+				    	<label for="exampleInputPassword1">情侣乙姓名</label>
+				    	<input type="input" class="form-control" id="girl" placeholder="Girl Name">
+				  	</div>
+				  	
+				  	<div class="form-group">
+				    	<label for="exampleInputPassword1">相遇日期</label>
+				    	<input type="date" class="form-control" id="dd">
+				  	</div>
+				  	<div class="text-center">
+				  		<button type="submit" id="m1" class="btn btn-dark">纪念日</button>
+					  	<button type="submit" id="m2" class="btn btn-primary">摸板01</button>
+					  	<button type="submit" id="m3" class="btn btn-danger">摸板02</button>
+				  	</div>
+				  	
+				</div>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4 text-center">
+					<div id="qrcode"></div>					
+				</div>
+			</div>
+		</div>
+
+	</body>
+		
+	<script>
+		var str01= "http://192.168.1.103:8020/HelloHBuilder/bb01.html";
+		var str02= "http://192.168.1.103:8020/HelloHBuilder/bb02/bb02.html";
+		var str03= "http://192.168.1.103:8020/HelloHBuilder/bb03/bb03.html";
+		
+		
+		
+		function utf16to8(str) {
+		    var out, i, len, c;  
+		    out = "";  
+		    len = str.length;  
+		    for(i = 0; i < len; i++) {  
+		    c = str.charCodeAt(i);  
+		    if ((c >= 0x0001) && (c <= 0x007F)) {  
+		        out += str.charAt(i);  
+		    } else if (c > 0x07FF) {  
+		        out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));  
+		        out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));  
+		        out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));  
+		    } else {  
+		        out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));  
+		        out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));  
+		    }  
+		    }  
+		    return out;  
+		}		
+
+		function createCode(str){
+			$('#qrcode').empty();
+		 	$('#qrcode').qrcode({width: 164,height: 164,text: utf16to8(str)}); 
+		}
+		
+		$('#m1').click(function(){
+			var v = str01 + "?dd=" + $('#dd').val();
+			createCode(encodeURI(v));
+		});
+		$('#m2').click(function(){
+			//encodeURI(str)
+			var v = str02 + "?dd=" + $('#dd').val() + "&boy=" 
+				+ $('#boy').val() + "&girl=" + $('#girl').val();
+			createCode(encodeURI(v));
+		});
+		$('#m3').click(function(){
+			var v = str03 + "?dd=" + $('#dd').val() + "&boy=" 
+				+ $('#boy').val() + "&girl=" + $('#girl').val();
+			
+			createCode(encodeURI(v));
+		});
+	</script>
+
+</html>
