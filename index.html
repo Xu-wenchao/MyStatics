@@ -92,22 +92,41 @@
 			$('#qrcode').append(oImg);
 		}
 		
+function vertify(){
+			if(!$('#boy').val()){
+				alert("请输入情侣甲姓名！");
+			}else if(!$('#girl').val()){
+				alert("请输入情侣乙姓名！");
+			}else if(!$('#dd').val()){
+				alert("请输入在一起的时间！");
+			}else{
+				return true;
+			}
+			return false;
+		}
+		
 		$('#m1').click(function(){
+			if(!vertify()) return false;
+			
 			var v = str01 + "?dd=" + $('#dd').val();
 			createCode(encodeURI(v));
 		});
 		$('#m2').click(function(){
-			//encodeURI(str)
-			var v = str02 + "?dd=" + $('#dd').val() + "&boy=" 
+			if(!vertify()) return false;			
+			
+			var v = str02 + "?dd=" + $('#dd').val() + "&boy="
 				+ $('#boy').val() + "&girl=" + $('#girl').val();
 			createCode(encodeURI(v));
 		});
 		$('#m3').click(function(){
+			if(!vertify()) return false;			
+			
 			var v = str03 + "?dd=" + $('#dd').val() + "&boy=" 
 				+ $('#boy').val() + "&girl=" + $('#girl').val();
 			
 			createCode(encodeURI(v));
 		});
+		
 	</script>
 
 </html>
