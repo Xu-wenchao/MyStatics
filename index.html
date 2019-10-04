@@ -80,6 +80,16 @@
 		function createCode(str){
 			$('#qrcode').empty();
 		 	$('#qrcode').qrcode({width: 164,height: 164,text: utf16to8(str)}); 
+			
+			var canvas = document.getElementsByTagName('canvas')[0];
+			var ctx = canvas.toDataURL("image/png");
+			
+			let oImg = document.createElement('img');
+			oImg.id = 'oImg';
+			oImg.className = 'o-img';
+			oImg.src= ctx;
+			$('#qrcode').empty();
+			$('#qrcode').append(oImg);
 		}
 		
 		$('#m1').click(function(){
