@@ -27,8 +27,8 @@
 	<div id="content">
 		<div id="code">
 			<span class="comments">/**</span><br />
-			<span class="space"/><span class="comments">*2019—10-04,</span><br />
-			<span class="space"/><span class="comments">*2019-10-05.</span><br />
+			<span class="space"/><span class="comments" id="startTime">*2019—10-04,</span><br />
+			<span class="space"/><span class="comments" id="endTime">*2019-10-05.</span><br />
 			<span class="space"/><span class="comments">*/</span><br />
 			Boy name = <span class="keyword">Mr</span> <span id='bn'>XU</span><br />
 			Girl name = <span class="keyword">Mrs</span> <span id='gn'>XU</span><br />
@@ -81,6 +81,11 @@ function getUrlParam(name) {
 $("#bn").text(getUrlParam('boy'));
 $("#bn2").text(getUrlParam('boy'));
 $("#gn").text(getUrlParam('girl'));
+$("#startTime").text('*' + getUrlParam('dd') + ",");
+var curTime = new Date();
+var curMonth = (curTime.getMonth() + 1) > 9 ? (curTime.getMonth() + 1) : '0' + (curTime.getMonth() + 1);
+var curDate = curTime.getDate() > 9 ? curTime.getDate() : '0' + curTime.getDate();
+$("#endTime").text('*' + curTime.getFullYear() + "-" + curMonth + "-" + curDate + ".");
 	
 var offsetX = $("#loveHeart").width() / 2;
 var offsetY = $("#loveHeart").height() / 2 - 55;
