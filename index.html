@@ -113,21 +113,21 @@ function vertify(){
 		$('#m1').click(function(){
 			if(!vertify()) return false;
 			
-			var v = str01 + "?dd=" + $('#dd').val();
+			var v = str01 + "?dd=" + $('#dd').val() + "&tmp=1";
 			createCode(encodeURI(v));
 		});
 		$('#m2').click(function(){
 			if(!vertify()) return false;			
 			
 			var v = str02 + "?dd=" + $('#dd').val() + "&boy="
-				+ $('#boy').val() + "&girl=" + $('#girl').val();
+				+ $('#boy').val() + "&girl=" + $('#girl').val() + "&tmp=1";
 			createCode(encodeURI(v));
 		});
 		$('#m3').click(function(){
 			if(!vertify()) return false;			
 			
 			var v = str03 + "?dd=" + $('#dd').val() + "&boy=" 
-				+ $('#boy').val() + "&girl=" + $('#girl').val();
+				+ $('#boy').val() + "&girl=" + $('#girl').val() + "&tmp=1";
 			
 			createCode(encodeURI(v));
 		});
