@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link href="./css/vendor/bootstrap.min.css" rel="stylesheet">
+	    <link href="./css/flat-ui.css" rel="stylesheet">
+		<script src="js/jscolor.js"></script>
+		
+	</head>
+	<body>
+		<div class="text-center">
+			<img src="https://xu-wenchao.github.io/MyStatics/qr.jpg" />
+			<br/>
+			<label> 大家喜欢的话可以关注我哦 </label><img src="seye.gif"/>
+		</div>
+		<div id="waveform"></div>
+		<div class="container">
+
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-8">
+					<div class="form-group">
+						<div class="row">
+							<label>声音颜色:&nbsp;&nbsp;</label> 
+							<input class="form-control jscolor col-md-4" id="waveColor" value="ab0000">
+						</div>
+					</div>
+				  	<div class="form-group">
+						<div class="row">
+							<label>播放颜色:&nbsp;&nbsp;</label> 
+							<input class="form-control jscolor col-md-4" id="progressColor" value="39ab36">
+				  		</div>
+				  </div>
+					<div class="form-group">
+						<div class="row">
+							<label>播放速度:&nbsp;&nbsp;</label> 
+							<input class="form-control col-md-4" id="speed" value="" placeholder="1:正常；0.8:慢速；1.5:快速">
+				  		</div>
+				  	</div>
+				  	<div class="form-group">
+						<div class="row">
+							<label>选择文件:&nbsp;&nbsp;</label>
+							<div class="col-md-4">
+								<div class="input-group">
+									<input id='location' class="form-control" onclick="$('#i-file').click();">
+									<label class="input-group-btn">
+										<input type="button" id="i-check" value="浏览文件" class="btn btn-primary" onclick="$('#i-file').click();">
+									</label>
+								</div>
+							</div>
+							<input type="file" name="file" id='i-file' style="display: none">
+						</div>
+					</div>
+				  	
+					<div class="form-group">
+						<div class="row">
+							<label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</label> 
+							<button id="btn" class="form-control btn-primary col-md-4">播放</button>
+				  		</div>
+				  	</div>	
+
+				</div>
+			</div>
+
+		</div>
+
+	</body>
+	<script src="js/jquery.min.js"></script>
+	<script src="js/wavesurfer.js"></script>
+	
+	<script type="text/javascript">
+		$("#i-file").on("change", function(){
+			$('#location').val($('#i-file').val());
+		});
+	</script>
+
+	<script type="text/javascript">
+		function isNumber(val){
+		
+		    var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+		    var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+		    if(regPos.test(val) || regNeg.test(val)){
+		        return true;
+		    }else{
+		        return false;
+		    }
+		
+		}
+	</script>
+
+
+	<script type="text/javascript">
+		var wavesurfer = null;
+		$("#btn").click(function(){
+			let num = $("#speed").val();
+			if(!isNumber(num)){
+				alert("请填入播放速度，0~2之间的任意数字。");
+				return;
+			}
+			
+			
+			let mf = document.getElementById('i-file');
+			if(wavesurfer != null){
+				wavesurfer.destroy();
+			}
+			wavesurfer = WaveSurfer.create({
+				audioRate: $("#speed").val(),
+			    container: '#waveform',
+			    waveColor: '#' + $("#waveColor").val(),
+			    progressColor: '#' + $("#progressColor").val()
+			});
+
+			
+			let reader = new FileReader();
+			let rs = reader.readAsArrayBuffer(mf.files[0]);
+			let blob = null;
+		
+			reader.onload = function(e){
+				if (typeof e.target.result === 'object') {
+			      blob = new Blob([e.target.result])
+			    } else {
+			    	blob = e.target.result;
+			    }
+			    wavesurfer.loadBlob(blob);
+				setTimeout(function(){
+					wavesurfer.play();
+				}, 2000);
+			    //console.log(Object.prototype.toString.call(blob));
+			}
+		});
+	</script>
+
+</html>
