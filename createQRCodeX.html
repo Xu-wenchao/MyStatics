@@ -1,0 +1,102 @@
+﻿<!DOCTYPE html>
+
+<html>
+	<head>
+		<title>二维码生成工具</title>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
+		<script type="text/javascript" src="scripts/jquery.min.js"></script>
+		<script type="text/javascript" src="scripts/jquery.qrcode.min.js"></script>
+	    <link href="./css/vendor/bootstrap.min.css" rel="stylesheet">
+	    <link href="./css/flat-ui.css" rel="stylesheet">
+	    <link rel="shortcut icon" href="https://xu-wenchao.github.io/MyStatics/qr.jpg">
+	</head>
+	<body>
+		<div class="container text-center">
+			<hr>二维码生成工具</hr>
+			<br />
+			<br />
+			<div class="row">
+				<div class="col-md-4"></div>
+				<textarea id="content" class="form-control col-md-4" style="height: 200px;" placeholder="请填入二维码文字！（注：二维码能存储文字有限，请合理分配）"></textarea>
+			</div>
+			<br />
+			
+			<div class="row">
+				<div class="col-md-4"></div>
+				<button class="bg-success form-control col-md-4" id="createQR">生成二维码</button>
+			</div>
+			<br/>
+			<div class="row">
+				<div class="col-md-4"></div>
+				<div class="col-md-4 text-center">
+					<div id="qrcode" style="position: relative;"></div>					
+				</div>
+			</div>
+
+
+			<div class="text-center">
+				<label> 大家喜欢的话可以微信关注我哦 </label><img src="https://xu-wenchao.github.io/MyStatics/seye.gif"/>
+				<br/>
+				<img src="https://xu-wenchao.github.io/MyStatics/qr.jpg" />
+			</div>
+			<br/>
+		</div>
+
+	</body>
+		
+	<script>
+		
+		function utf16to8(str) {
+		    var out, i, len, c;   
+		    out = "";  
+		    len = str.length;  
+		    for(i = 0; i < len; i++) {  
+		    c = str.charCodeAt(i);  
+		    if ((c >= 0x0001) && (c <= 0x007F)) {  
+		        out += str.charAt(i);  
+		    } else if (c > 0x07FF) {  
+		        out += String.fromCharCode(0xE0 | ((c >> 12) & 0x0F));  
+		        out += String.fromCharCode(0x80 | ((c >>  6) & 0x3F));  
+		        out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));  
+		    } else {  
+		        out += String.fromCharCode(0xC0 | ((c >>  6) & 0x1F));  
+		        out += String.fromCharCode(0x80 | ((c >>  0) & 0x3F));  
+		    }  
+		    }  
+		    return out;  
+		}		
+
+		function createCode(str){
+			$('#qrcode').empty();
+		 	$('#qrcode').qrcode({width: 164,height: 164,text: utf16to8(str)}); 
+			
+			var canvas = document.getElementsByTagName('canvas')[0];
+			var ctx = canvas.toDataURL("image/png");
+			
+			let oImg = document.createElement('img');
+			oImg.id = 'oImg';
+			oImg.className = 'o-img';
+			oImg.src= ctx;
+			$('#qrcode').empty();
+			$('#qrcode').append(oImg);
+			//贴flag
+			let fImg = document.createElement('img');
+			fImg.src = 'flag.png';
+			fImg.style.position = 'absolute';
+
+			fImg.style.left = ($('#qrcode').width() / 2 - 82 + 54) + 'px';
+			fImg.style.top = ($('#qrcode').height() / 2 - 82 + 54) + 'px';
+			fImg.style.width = '54px';
+			fImg.style.height = '54px';
+			$('#qrcode').append(fImg);
+			
+		}
+		
+		$("#createQR").click(function(){
+			createCode($("#content").val());
+		});
+		
+	</script>
+
+</html>
