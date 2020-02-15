@@ -30,7 +30,7 @@
 			<div class="row">
 				<div class="col-md-4"></div>
 				<div class="col-md-4 text-center">
-					<div id="qrcode" style="position: relative;"></div>					
+					<div id="qrcode"></div>					
 				</div>
 			</div>
 
@@ -42,7 +42,7 @@
 			</div>
 			<br/>
 		</div>
-
+		<img src="flag.png" id="flag" style="display: none;"/>
 	</body>
 		
 	<script>
@@ -72,6 +72,9 @@
 		 	$('#qrcode').qrcode({width: 164,height: 164,text: utf16to8(str)}); 
 			
 			var canvas = document.getElementsByTagName('canvas')[0];
+			var g = canvas.getContext('2d');
+			g.drawImage(document.getElementById('flag'), 55, 55, 55, 55);
+			
 			var ctx = canvas.toDataURL("image/png");
 			
 			let oImg = document.createElement('img');
@@ -79,18 +82,7 @@
 			oImg.className = 'o-img';
 			oImg.src= ctx;
 			$('#qrcode').empty();
-			$('#qrcode').append(oImg);
-			//贴flag
-			let fImg = document.createElement('img');
-			fImg.src = 'flag.png';
-			fImg.style.position = 'absolute';
-
-			fImg.style.left = ($('#qrcode').width() / 2 - 82 + 54) + 'px';
-			fImg.style.top = ($('#qrcode').height() / 2 - 82 + 54) + 'px';
-			fImg.style.width = '54px';
-			fImg.style.height = '54px';
-			$('#qrcode').append(fImg);
-			
+			$('#qrcode').append(oImg);			
 		}
 		
 		$("#createQR").click(function(){
