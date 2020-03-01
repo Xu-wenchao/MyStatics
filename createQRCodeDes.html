@@ -143,12 +143,24 @@
 	<script>
 		//处理图片并添加都dom中的函数
 		var readFile=function(obj){
-			// 获取input里面的文件组
-			var reader= new FileReader();
-			reader.readAsDataURL(document.getElementById('upload-input').files[0]);
+
+			let reader = new FileReader();
+			let rs = reader.readAsArrayBuffer(document.getElementById('upload-input').files[0]);
+			let blob = null;
+
 			// 当文件读取成功时执行的函数
 			reader.onload=function(e){
-				document.getElementById('upload').src = this.result;
+				if (typeof e.target.result === 'object') {
+			      blob = new Blob([e.target.result])
+			    } else {
+			    	blob = e.target.result;
+			    }
+
+				let img = document.getElementById('upload');
+			    img.onload = function(e) {
+			      window.URL.revokeObjectURL(img.src); 
+			    };
+			    img.src = window.URL.createObjectURL(blob);
 			}
 		}	
 		var input=document.getElementById("upload-input");
